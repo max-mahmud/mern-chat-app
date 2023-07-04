@@ -5,7 +5,7 @@ const router = express.Router();
 router.post('/register', registerUser)
 router.post('/login', loginUser)
 router.post('/find/:userId', findUser)
-router.post('/findall', findAllUsers)
+router.post('/', findAllUsers)
 
 
 module.exports = router;
