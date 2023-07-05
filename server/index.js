@@ -25,10 +25,12 @@ mongoose
   })
   .then(() => {
     // listening for requests
-    app.listen(PORT, (req, res) => {
-      console.log(`connected to db and server running on port:${PORT}`);
-    });
+    console.log(`connected to db`);
   })
   .catch((err) => {
     console.log(err.message);
   });
+
+app.listen(PORT, (req, res) => {
+  console.log(`server running on port:${PORT}`);
+});

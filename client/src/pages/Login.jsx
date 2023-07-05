@@ -2,6 +2,8 @@ import { useState } from "react";
 import SectionTitle from "../components/SectionTitle";
 import FormControl from "../components/FormControl";
 import Button from "./../components/Button";
+import { useLogin } from "../hooks/useLogin";
+import ErrorMessage from "../components/ErrorMessage";
 
 const Login = () => {
   const [formFields, setFormFeilds] = useState({
@@ -9,15 +11,14 @@ const Login = () => {
     password: "",
   });
 
-  const handleLogin = (e) => {
+  const { login, isLoading, error } = useLogin();
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    console.log(formFields);
-    setFormFeilds({
-      email: "",
-      password: "",
-    });
+    await login(formFields.email, formFields.password);
   };
+
   return (
     <div className="register flex flex-col justify-center items-center mt-14">
       <form
@@ -41,7 +42,8 @@ const Login = () => {
           formFields={formFields}
           setFormFeilds={setFormFeilds}
         />
-        <Button text={"Login"} submit />
+        <Button text={isLoading ? "Loading..." : "Login"} submit />
+        {error && <ErrorMessage error={error} />}
       </form>
     </div>
   );

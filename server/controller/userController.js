@@ -63,14 +63,14 @@ const loginUser = async (req, res) => {
   try {
     const user = await userModel.findOne({ email: email });
     if (!user) {
-      res.status(404).json("user not found in database");
+      return res.status(404).json("user not found in database");
     }
     const comparePassword = await bcrypt.compare(password, user.password);
     if (!comparePassword) {
-      res.status(404).json("password does not match");
+      return res.status(404).json("password does not match");
     }
     const token = await createToken(user._id);
-    return res.status(200).json({ success: true, _id: user._id, token, user });
+    res.status(200).json({ success: true, _id: user._id, token, user });
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
@@ -103,4 +103,25 @@ const findAllUsers = async (req, res, next) => {
     res.status(500).json(error);
   }
 };
-module.exports = { registerUser, loginUser, findUser, findAllUsers };
+
+//delete single user
+
+const deleteUser = async (req, res, next) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await userModel.findByIdAndDelete(userId);
+    res.status(200).json({ user });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+
+module.exports = {
+  registerUser,
+  loginUser,
+  findUser,
+  findAllUsers,
+  deleteUser,
+};
