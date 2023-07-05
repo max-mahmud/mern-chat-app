@@ -45,7 +45,7 @@ const registerUser = async (req, res, next) => {
     // create token
     const token = createToken(user._id);
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       _id: user._id,
       token,
@@ -70,7 +70,7 @@ const loginUser = async (req, res) => {
       return res.status(404).json("password does not match");
     }
     const token = await createToken(user._id);
-    res.status(200).json({ success: true, _id: user._id, token, user });
+    return res.status(200).json({ success: true, _id: user._id, token, user });
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
@@ -105,7 +105,6 @@ const findAllUsers = async (req, res, next) => {
 };
 
 //delete single user
-
 const deleteUser = async (req, res, next) => {
   const { userId } = req.params;
 

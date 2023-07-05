@@ -13,6 +13,8 @@ app.use(cors());
 
 // endpoints
 app.use("/api/user", require("./routes/userRoutes"));
+app.use("/api/chat", require("./routes/chatRoutes"));
+app.use("/api/message", require("./routes/messageRoutes"));
 
 // port
 const PORT = process.env.PORT || 4000;
@@ -25,12 +27,10 @@ mongoose
   })
   .then(() => {
     // listening for requests
-    console.log(`connected to db`);
+    app.listen(PORT, (req, res) => {
+      console.log(`connected to db && server running on port:${PORT}`);
+    });
   })
   .catch((err) => {
     console.log(err.message);
   });
-
-app.listen(PORT, (req, res) => {
-  console.log(`server running on port:${PORT}`);
-});
